@@ -1,0 +1,1 @@
+{"version":3,"sources":["App.css"],"names":[],"mappings":"AAAA,KACE,YACF,CAEA,mBACE,eACF,CAEA,gBACE,oBACF","file":"main.6986b7f1.chunk.css","sourcesContent":[".App {\r\n  margin-top: 0px;\r\n}\r\n\r\n.App .navbar-brand {\r\n  font-weight: bold;\r\n}\r\n\r\n.App .container {\r\n  align-content: center;\r\n}\r\n"]}
