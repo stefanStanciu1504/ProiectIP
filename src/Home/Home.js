@@ -9,8 +9,12 @@ import history from "./../history";
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = { width: 0, height: 0 };
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+	this.state = { width: 0, height: 0};
+	
+	this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+	this.getFriends = this.getFriends.bind(this);
+
+	this.getFriends();
   }
 
   componentDidMount() {
@@ -25,6 +29,53 @@ class Home extends Component {
   updateWindowDimensions() {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
+  getFriends() {
+	// var request = require("request");
+	// // request.get(
+	// // 	"https://exalted-density-273820.nw.r.appspot.com/user/test",
+	// // 	function(err, response, body) {
+	// // 	  if (response.statusCode !== 200) {
+	// // 		console.log(err);
+	// // 	  } else {
+	// // 	   console.log(response);
+	// // 	  }
+	// // 	}
+	// //   );
+
+    // request.get(
+    //   this.state.url,
+    //   function(err, response, body) {
+    //     if (response.statusCode !== 200) {
+    //       console.log(response);
+    //     } else {
+	// 	 console.log(body);
+    //     }
+    //   }
+	// );
+	// fetch('https://exalted-density-273820.nw.r.appspot.com/' + "user/test", {
+	// 	method: 'GET',
+	// 	headers: {
+	// 	  Accept: 'text/plain',
+	// 	  	'Content-Type': 'text/plain',
+	// 		'Access-Control-Allow-Origin':'https://localhost:3000/Home'
+	// 	},
+	// 	credentials: 'same-origin'
+	//   }).then(res => {
+	// 	console.log(res);
+	//   });
+
+	var requestOptions = {
+		method: 'GET',
+		redirect: 'follow',
+		credentials: 'include',
+		host:"http://localhost:3000"
+	  };
+	  
+	  fetch("https://exalted-density-273820.nw.r.appspot.com/friends/list", requestOptions)
+		.then(response => response.text())
+		.then(result => console.log(result))
+		.catch(error => console.log('error', error));
+  }
 
   render() {
     return (
@@ -33,8 +84,8 @@ class Home extends Component {
           src={Logo}
           alt="website logo"
           style={{
-            width: "400px",
-            height: "400px",
+            width: this.state.width / 4,
+            height: this.state.height / 2.5,
             position: "absolute",
             top: this.state.height / 8,
             right: this.state.width / 6
@@ -264,6 +315,5 @@ class Home extends Component {
     );
   }
 }
-
-
 export default Home;
+
