@@ -65,27 +65,28 @@ class Sign_up extends Component {
   }
 
   loadDoc(url, cFunction) {
-    var xhttp;
-    xhttp = new XMLHttpRequest();
-    xhttp.open("POST", url, true);
-    xhttp.setRequestHeader("Content-Type", "application/json");
-    xhttp.onreadystatechange = function() {
-      if (this.readyState === 4) {
-        if (this.status === 200) {
-          cFunction(this);
-        } else {
-          alert("Invalid credentials");
-        }
-      }
-    };
-    var data = JSON.stringify({
-      username: this.state.username,
-      password: md5(this.state.password),
-      email: this.state.email,
-      firstName: this.state.first_name,
-      lastName: this.state.last_name
-    });
-    xhttp.send(data);
+	var data = JSON.stringify({
+		username: this.state.username,
+		password: md5(this.state.password),
+		email: this.state.email,
+		firstName: this.state.first_name,
+		lastName: this.state.last_name
+	  });
+	var requestOptions = {
+		method: 'POST',
+		redirect: 'follow',
+		credentials: 'include',
+		host:"http://localhost:3000",
+		body:data,
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	  };
+	  
+	  fetch("https://exalted-density-273820.nw.r.appspot.com/user/register", requestOptions)
+		.then(response => response.text())
+		.catch(error => console.log('error', error));
+		this.ceva();
   }
 
   handleSubmit() {
@@ -103,7 +104,6 @@ class Sign_up extends Component {
           required
           id="outlined-required"
           label="Username"
-          defaultValue=""
           variant="outlined"
           style={{ position: "absolute", top: 200, left: 400 }}
           type="text"
@@ -114,7 +114,6 @@ class Sign_up extends Component {
           required
           id="outlined-required"
           label="Password"
-          defaultValue=""
           variant="outlined"
           style={{ position: "absolute", top: 300, left: 400 }}
           type="password"
@@ -125,10 +124,9 @@ class Sign_up extends Component {
           required
           id="outlined-required"
           label="Email"
-          defaultValue=""
           variant="outlined"
           style={{ position: "absolute", top: 400, left: 400 }}
-          type="email"
+          type="text"
           value={this.state.email}
           onChange={this.handleChange3}
         />
@@ -136,7 +134,6 @@ class Sign_up extends Component {
           required
           id="outlined-required"
           label="First Name"
-          defaultValue=""
           variant="outlined"
           style={{ position: "absolute", top: 500, left: 400 }}
           type="text"
@@ -147,7 +144,6 @@ class Sign_up extends Component {
           required
           id="outlined-required"
           label="Last Name"
-          defaultValue=""
           variant="outlined"
           style={{ position: "absolute", top: 600, left: 400 }}
           type="text"
