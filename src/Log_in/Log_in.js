@@ -6,6 +6,7 @@ import * as Cookie from "js-cookie";
 import cookie from "react-cookies";
 import TextField from "@material-ui/core/TextField";
 import Button from "react-bootstrap/Button";
+import Wave from 'react-wavify'
 
 class Log_in extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class Log_in extends Component {
     this.handleChange2 = this.handleChange2.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onLogin = this.onLogin.bind(this);
-    this.onLogout = this.onLogout.bind(this);
+	this.onLogout = this.onLogout.bind(this);
   }
 
   handleChange1(event) {
@@ -47,28 +48,11 @@ class Log_in extends Component {
   }
 
   handleSubmit() {
-	// var request = require("request");
-	// var username = this.state.username;
-    // request.post(
-    //   this.state.url +
-    //     "user/login?username=" +
-    //     this.state.username +
-    //     "&password=" +
-    //     md5(this.state.password),
-    //   function(err, response, body) {
-    //     if (response.statusCode !== 200) {
-    //       alert("Invalid credentials!");
-    //     } else {
-    //       Cookie.set("userId", username, { path: "/", expires: 14 });
-	// 	  //history.push("/Chat");
-	// 	//   window.location.reload();
-    //     }
-    //   }
-	// );
-	fetch('https://exalted-density-273820.nw.r.appspot.com/' + "user/login?username=" +
-        this.state.username +
-        "&password=" +
-        md5(this.state.password), {
+	let url = "https://exalted-density-273820.nw.r.appspot.com/user/login?username=" +
+	this.state.username +
+	"&password=" +
+	md5(this.state.password);
+	fetch(url, {
 		method: 'POST',
 		headers: {
 		  Accept: 'application/json',
@@ -76,21 +60,49 @@ class Log_in extends Component {
 		},
 		credentials: 'include'
 	  }).then(res => {
-		console.log(res);
+		  if (res.status === 200) {
+			Cookie.set("userId", this.state.username, { path: "/", expires: 14 });
+			history.push("/Chat");
+			window.location.reload();
+		  } else {
+			  alert("Invalid credentials!");
+		  }
 	  });
   }
 
   render() {
+	const style = {
+		display: "flex",
+		alignItems: 'center',
+		justifyContent: 'center',
+		textAlign: 'center',
+		width:"100%",
+		height:"100%"
+	};
+
     return (
-      <div>
+      <div style={style}>
+		<Wave fill='#4682B4'
+				paused={false}
+				style={{position:"absolute", top:"0%", width:"100%", height:"100%", backgroundColor:"#B0C4DE"}}
+				options={{
+				height: 600,
+				amplitude: 40,
+				speed: 0.2,
+				points: 7
+				}} />
+		 <text style={{fontSize:"150%", position:"absolute", top:"23%", color:"black", fontFamily: "comic sans ms",
+            fontWeight: "300"}}>
+			  Duolingo Chat
+			</text>
           <TextField
             id="outlined-basic"
             label="Username"
             variant="outlined"
             type="text"
             value={this.state.username}
-            onChange={this.handleChange1}
-            style={{ position: "absolute", top: 500, left: 400 }}
+			onChange={this.handleChange1}
+			style={{position:"absolute", top:"30%" }}
           />
           <TextField
             id="outlined-basic"
@@ -98,17 +110,16 @@ class Log_in extends Component {
             variant="outlined"
             type="password"
             value={this.state.password}
-            onChange={this.handleChange2}
-            style={{ position: "absolute", top: 600, left: 400 }}
+			onChange={this.handleChange2}
+			style={{position:"absolute", top:"40%"}}
           />
           <Button
             variant="dark"
             style={{
               width: "200px",
-              height: "40px",
-              position: "absolute",
-              top: 700,
-              left: 400
+			  height: "40px",
+			  position:"absolute",
+			  top:"50%"
             }}
             onClick={() => this.handleSubmit()}
           >

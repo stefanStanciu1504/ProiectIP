@@ -4,6 +4,7 @@ import md5 from "md5";
 import TextField from "@material-ui/core/TextField";
 import Button from "react-bootstrap/Button";
 import Checkbox from "./Checkbox";
+import Wave from 'react-wavify'
 
 class Sign_up extends Component {
   constructor(props) {
@@ -26,7 +27,6 @@ class Sign_up extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     this.loadDoc = this.loadDoc.bind(this);
-    this.ceva = this.ceva.bind(this);
   }
 
   createCheckbox = label => (
@@ -60,11 +60,7 @@ class Sign_up extends Component {
     this.setState({ last_name: event.target.value });
   }
 
-  ceva(ceva2) {
-    history.push("/Log_in");
-  }
-
-  loadDoc(url, cFunction) {
+  loadDoc() {
 	var data = JSON.stringify({
 		username: this.state.username,
 		password: md5(this.state.password),
@@ -72,6 +68,7 @@ class Sign_up extends Component {
 		firstName: this.state.first_name,
 		lastName: this.state.last_name
 	  });
+	  console.log(data)
 	var requestOptions = {
 		method: 'POST',
 		redirect: 'follow',
@@ -84,29 +81,54 @@ class Sign_up extends Component {
 	  };
 	  
 	  fetch("https://exalted-density-273820.nw.r.appspot.com/user/register", requestOptions)
-		.then(response => response.text())
+	  .then(response => response.text())
+	  .then(result => {
+						console.log(result)
+						history.push("/Log_in")
+							})
 		.catch(error => console.log('error', error));
-		this.ceva();
   }
 
   handleSubmit() {
     if (this.state.checked === false) {
       alert("You must agree with the terms of service!");
     } else {
-      this.loadDoc(this.state.url + "/user/register", this.ceva);
+      this.loadDoc();
     }
   }
 
   render() {
+	const style = {
+		display: "flex",
+		alignItems: 'center',
+		justifyContent: 'center',
+		textAlign: 'center',
+		width:"100%",
+		height:"100%"
+	};
+	
     return (
-      <div>
+      <div style={style}>
+		  <Wave fill='#4682B4'
+				paused={false}
+				style={{position:"absolute", top:"0%", width:"100%", height:"100%", backgroundColor:"#B0C4DE"}}
+				options={{
+				height: 800,
+				amplitude: 50,
+				speed: 0.15,
+				points: 5
+				}} />
+		 <text style={{fontSize:"150%", position:"absolute", top:"7%", color:"black", fontFamily: "comic sans ms",
+            fontWeight: "300"}}>
+			  Duolingo Chat
+			</text>
         <TextField
           required
           id="outlined-required"
           label="Username"
           variant="outlined"
-          style={{ position: "absolute", top: 200, left: 400 }}
-          type="text"
+          style={{ position: "absolute", top: "15%", borderBlockColor:"black"}}
+		  type="text"
           value={this.state.username}
           onChange={this.handleChange1}
         />
@@ -115,7 +137,7 @@ class Sign_up extends Component {
           id="outlined-required"
           label="Password"
           variant="outlined"
-          style={{ position: "absolute", top: 300, left: 400 }}
+          style={{ position: "absolute", top: "25%"}}
           type="password"
           value={this.state.password}
           onChange={this.handleChange2}
@@ -125,7 +147,7 @@ class Sign_up extends Component {
           id="outlined-required"
           label="Email"
           variant="outlined"
-          style={{ position: "absolute", top: 400, left: 400 }}
+          style={{ position: "absolute", top: "35%"}}
           type="text"
           value={this.state.email}
           onChange={this.handleChange3}
@@ -135,7 +157,7 @@ class Sign_up extends Component {
           id="outlined-required"
           label="First Name"
           variant="outlined"
-          style={{ position: "absolute", top: 500, left: 400 }}
+          style={{ position: "absolute", top: "45%"}}
           type="text"
           value={this.state.first_name}
           onChange={this.handleChange4}
@@ -145,12 +167,12 @@ class Sign_up extends Component {
           id="outlined-required"
           label="Last Name"
           variant="outlined"
-          style={{ position: "absolute", top: 600, left: 400 }}
+          style={{ position: "absolute", top: "55%"}}
           type="text"
           value={this.state.last_name}
           onChange={this.handleChange5}
         />
-        <label style={{ position: "absolute", top: 700, left: 400 }}>
+        <label style={{ position: "absolute", top: "65%"}}>
           <Checkbox
             checked={this.state.checked}
             onChange={this.handleCheckboxChange}
@@ -165,8 +187,7 @@ class Sign_up extends Component {
             width: "200px",
             height: "40px",
             position: "absolute",
-            top: 800,
-            left: 400
+            top: "75%"
           }}
           onClick={() => this.handleSubmit()}
         >

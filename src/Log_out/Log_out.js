@@ -6,7 +6,7 @@ import history from "./../history";
 class Log_out extends Component {
 	constructor(props) {
 		super(props);
-		Cookie.remove('userId');
+		
 		var requestOptions = {
 			method: 'GET',
 			redirect: 'follow',
@@ -18,8 +18,9 @@ class Log_out extends Component {
 			.then(response => response.text())
 			.then(result => console.log(result))
 			.catch(error => console.log('error', error));
+		Cookie.remove('userId');
 		history.push("/Home");
-		//window.location.reload();
+		window.location.reload();
 	}
 
 	render() {
